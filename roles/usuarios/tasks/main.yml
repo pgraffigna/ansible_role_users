@@ -31,12 +31,12 @@
     dest: "/etc/sudoers.d/{{ user }}"
     content: "{{ user }}  ALL=(ALL)  NOPASSWD: ALL"
 
-- name: No permitir Root Login
-  lineinfile:
-    dest: /etc/ssh/sshd_config
-    regexp: '^PermitRootLogin'
-    line: "PermitRootLogin no"
-    state: present
-    backup: yes
+- blockinfile:
+    path: /etc/ssh/sshd_config
+    block: |
+      PermitRootLogin no  
+      Port 3792
+      PasswordAuthentication no
+      AllowUsers quentin
   notify:
-    - reiniciar ssh
+    - reiniciar ssh    
