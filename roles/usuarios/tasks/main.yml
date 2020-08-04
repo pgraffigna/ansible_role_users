@@ -1,0 +1,42 @@
+---
+- name: Crea un grupo
+  group:
+    name: "{{ group }}"
+    state: present
+
+- name: Crea usuario y Agrega a grupo
+  user:
+    name: "{{ user }}"
+    create_home: yes
+    shell: /bin/bash
+    password: "{{ pass | password_hash('sha512') }}"
+    update_password: on_create
+    groups: "{{ group }}"
+
+- name: Crea el directorio para las ssh Keys 
+  file:
+    path: /home/{{ user }}/.ssh
+    state: directory
+    mode: 0700
+    owner: "{{ user }}"
+    group: "{{ group  }}"
+
+- name: Agregar llaves al archivo Authorized_keys"
+  authorized_key:
+    user: "{{ user }}"
+    key: "{{ lookup('file', 'files/' + user + '.pub')}}"
+
+- name: Agrega usuario al archivo sudoers
+  copy:
+    dest: "/etc/sudoers.d/{{ user }}"
+    content: "{{ user }}  ALL=(ALL)  NOPASSWD: ALL"
+
+- name: No permitir Root Login
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: "PermitRootLogin no"
+    state: present
+    backup: yes
+  notify:
+    - reiniciar ssh
