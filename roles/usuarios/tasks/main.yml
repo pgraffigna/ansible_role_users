@@ -37,6 +37,6 @@
       PermitRootLogin no  
       Port 3792
       PasswordAuthentication no
-      AllowUsers quentin
+      AllowUsers $USER
   notify:
     - reiniciar ssh    
