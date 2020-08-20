@@ -35,8 +35,8 @@
     path: /etc/ssh/sshd_config
     block: |
       PermitRootLogin no  
-      Port 3792
+      Port $PORT
       PasswordAuthentication no
-      AllowUsers $USER
+      AllowUsers "{{ user }}"
   notify:
     - reiniciar ssh    
