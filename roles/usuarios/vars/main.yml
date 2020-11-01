@@ -1,4 +1,4 @@
 ---
-user: $USER
-group: $GROUP
-pass: $PASS
+user: USUARIO
+group: GRUPO
+pass: PASSWORD

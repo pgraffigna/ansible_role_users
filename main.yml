@@ -1,8 +1,9 @@
 ---
 - hosts: testing
-  become: true
+  become: true	
   
   roles:	 
     - usuarios
+    - ufw
      
    

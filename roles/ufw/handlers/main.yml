@@ -1,0 +1,5 @@
+---
+- name: reiniciar ufw
+  service: 
+    name: ufw
+    state: restarted

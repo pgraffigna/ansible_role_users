@@ -1,5 +1,5 @@
 # ansible_users
 
-Playbook para crear usuarios via ansible en equipos con linux 
+Playbook para crear usuarios en equipos con linux. 
 
-Testeado con vagrant + virtualbox
+Testeado con vagrant + virtualbox.

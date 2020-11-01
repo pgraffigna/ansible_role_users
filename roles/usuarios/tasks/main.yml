@@ -39,4 +39,6 @@
       PasswordAuthentication no
       AllowUsers "{{ user }}"
   notify:
-    - reiniciar ssh    
+    - reiniciar ssh
+
+ 
