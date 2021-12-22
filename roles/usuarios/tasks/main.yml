@@ -1,44 +1,45 @@
 ---
 - name: Crea un grupo
   group:
-    name: "{{ group }}"
+    name: "{{ grupo }}"
     state: present
 
-- name: Crea usuario y Agrega a grupo
+- name: Crea usuario y lo agrega al grupo
   user:
-    name: "{{ user }}"
+    name: "{{ usuario }}"
     create_home: yes
     shell: /bin/bash
-    password: "{{ pass | password_hash('sha512') }}"
+    password: "{{ pass | string | password_hash('sha512') }}"
     update_password: on_create
-    groups: "{{ group }}"
+    groups: "{{ grupo }}"
 
 - name: Crea el directorio para las ssh Keys 
   file:
-    path: /home/{{ user }}/.ssh
+    path: /home/{{ usuario }}/.ssh
     state: directory
     mode: 0700
-    owner: "{{ user }}"
-    group: "{{ group  }}"
+    owner: "{{ usuario }}"
+    group: "{{ grupo  }}"
 
-- name: Agregar llaves al archivo Authorized_keys"
+- name: Agregar public_keys al archiv authorized_keys para acceso 
   authorized_key:
-    user: "{{ user }}"
-    key: "{{ lookup('file', 'files/' + user + '.pub')}}"
+    user: "{{ usuario }}"
+    state: present
+    key: "{{ lookup('file', 'files/id_rsa.pub') }}"
 
 - name: Agrega usuario al archivo sudoers
   copy:
-    dest: "/etc/sudoers.d/{{ user }}"
-    content: "{{ user }}  ALL=(ALL)  NOPASSWD: ALL"
+    dest: "/etc/sudoers.d/{{ usuario }}"
+    content: "{{ usuario }}  ALL=(ALL)  NOPASSWD: ALL"
 
 - blockinfile:
     path: /etc/ssh/sshd_config
     block: |
       PermitRootLogin no  
-      Port $PORT
-      PasswordAuthentication no
-      AllowUsers "{{ user }}"
+      Port "{{ puerto }}"
+      AllowUsers "{{ usuario }}"
   notify:
     - reiniciar ssh
 
- 
+#ansible-vault encrypt_string password123 --ask-vault-pass
+#ansible-playbook main.yml -K --ask-vault-pass

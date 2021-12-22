@@ -1,5 +1,5 @@
 # ansible_users
 
-Playbook para crear usuarios en equipos con linux. 
+Ansible Rol para crear usuarios en equipos con linux. 
 
-Testeado con vagrant + virtualbox.
+Testeado en lubuntu 20.04
