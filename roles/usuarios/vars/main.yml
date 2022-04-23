@@ -1,6 +1,0 @@
----
-usuario: testing
-grupo: testing
-pass: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-puerto: 2222

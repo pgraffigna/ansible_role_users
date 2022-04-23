@@ -1,5 +1,5 @@
 # ansible_users
 
-Ansible Rol para crear usuarios en equipos con linux. 
+Ansible Rol para crear usuarios en linux usando vars_prompt. 
 
-Testeado en lubuntu 20.04
+Testeado en lubuntu 20.04 + vagrant.

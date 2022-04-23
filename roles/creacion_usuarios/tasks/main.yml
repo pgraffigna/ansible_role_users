@@ -1,0 +1,26 @@
+---
+  - name: debug
+    debug:
+      msg: "usuario:{{ usuario }} --- password:{{ password }}"
+
+  - name: Creando usuarios
+    user:
+      name: "{{ usuario }}"
+      comment: administrador
+      shell: /bin/bash
+      generate_ssh_key: yes
+      ssh_key_bits: 2048
+      ssh_key_file: .ssh/id_rsa
+      createhome: yes
+      password: "{{ password }}"
+    
+  - name: Configurando acceso via llaves SSH  
+    authorized_key:
+      user: "{{ usuario }}"
+      state: present
+      key: "{{ lookup('file', 'files/id_rsa.pub') }}"
+
+  - name: Agrega usuario al archivo sudoers
+    copy:
+      dest: "/etc/sudoers.d/{{ usuario }}"
+      content: "{{ usuario }}  ALL=(ALL)  NOPASSWD: ALL"

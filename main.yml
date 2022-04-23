@@ -1,8 +1,20 @@
 ---
-- hosts: testing
-  become: true	
+- hosts: localhost
+  become: yes
+  connection: local
   
-  roles:	 
-    - usuarios
-     
-   
+  vars_prompt:
+    - name: usuario
+      prompt: "Ingresa el nombre para el nuevo usuario"
+      private: no
+
+    - name: password
+      prompt: "Ingresa la contraseña"
+      encrypt: sha512_crypt
+      confirm: yes    
+      private: yes
+
+  roles:
+    - creacion_usuarios
+
+  
